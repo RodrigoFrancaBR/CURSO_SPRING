@@ -14,13 +14,16 @@ public class Resposta {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mensagem;
+	private LocalDateTime dataCriacao = LocalDateTime.now();
+	private Boolean solucao = false;
 	
 	@ManyToOne
 	private Topico topico;
-	private LocalDateTime dataCriacao = LocalDateTime.now();
+	
+	
 	@ManyToOne
 	private Usuario autor;
-	private Boolean solucao = false;
+	
 
 	@Override
 	public int hashCode() {

@@ -1,0 +1,209 @@
+{
+	"variables": [],
+	"info": {
+		"name": "forum",
+		"_postman_id": "c549d6f2-3f74-1daf-236a-9b78a388b0f6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "listar_topicos_nome_curso",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?nomeCurso=HTML 5&paginaCorrente=0&qtdRegistro=3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "nomeCurso",
+							"value": "HTML 5",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "paginaCorrente",
+							"value": "0",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "qtdRegistro",
+							"value": "3",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listar_topicos",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?paginaCorrente=0&qtdRegistro=3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "paginaCorrente",
+							"value": "0",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "qtdRegistro",
+							"value": "3",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "cadastrar_topico",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?paginaCorrente=0&qtdRegistro=3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "paginaCorrente",
+							"value": "0",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "qtdRegistro",
+							"value": "3",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"titulo\": \"Erro ao iniciar o H2\",\n            \"mensagem\": \"Database 'mem:alura-forum2' not found, either pre-create it or allow remote database creation (not recommended in secure environments) [90149-200] 90149/90149 (Help)\",\n            \"nomeCurso\": \"Spring Boot\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listar_topicos_id",
+			"request": {
+				"url": "localhost:8080/topicos/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar_topicos_id",
+			"request": {
+				"url": "localhost:8080/topicos/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"titulo\": \"Dúvida sobre..\",\n    \"mensagem\": \"Erro ao atualizar um objeto\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "delete_topico",
+			"request": {
+				"url": "localhost:8080/topicos/1",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
