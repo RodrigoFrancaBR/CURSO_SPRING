@@ -122,3 +122,23 @@ Nas classes Repository, os métodos que recebem um pageable como parâmetro reto
 Para o Spring incluir informações sobre a paginação no JSON de resposta enviado ao cliente da API, devemos alterar o retorno do método do controller de List<> para Page<>;
 Para fazer a ordenação na consulta ao banco de dados, devemos utilizar também a interface Pageable, passando como parâmetro a direção da ordenação, utilizando a classe Direction, e o nome do atributo para ordenar;
 Para receber os parâmetros de ordenação e paginação diretamente nos métodos do controller, devemos habilitar o módulo SpringDataWebSupport, adicionando a anotação @EnableSpringDataWebSupport na classe ForumApplication.
+
+
+@SpringBootApplication é uma anotação de conveniência que adiciona todos os seguintes:
+
+@Configuration: marca a classe como uma fonte de definições de bean para o contexto do aplicativo.
+
+@EnableAutoConfiguration: Diz ao Spring Boot para começar a adicionar beans com base nas configurações de classpath, outros beans e várias configurações de propriedade. Por exemplo, se spring-webmvc estiver no caminho de classe, esta anotação sinaliza o aplicativo como um aplicativo da web e ativa comportamentos-chave, como configurar um DispatcherServlet.
+
+@ComponentScan: Diz ao Spring para procurar outros componentes, configurações e serviços no pacote com / example, permitindo que ele encontre os controladores.
+
+A anotação @EnableCaching dispara um pós-processador que inspeciona cada bean Spring quanto à presença de anotações de cache em métodos públicos. Se tal anotação for encontrada, um proxy é criado automaticamente para interceptar a chamada do método e manipular o comportamento do cache de acordo.
+
+O pós-processador lida com as anotações @Cacheable, @CachePut e @CacheEvict. Você pode consultar o Javadoc e o guia de referência para obter mais detalhes.
+
+Spring Boot configura automaticamente um CacheManager adequado para servir como um provedor para o cache relevante. Consulte a documentação do Spring Boot para obter mais detalhes.
+
+Nosso exemplo não usa uma biblioteca de cache específica, portanto, nosso armazenamento de cache é o substituto simples que usa ConcurrentHashMap. A abstração de cache suporta uma ampla gama de bibliotecas de cache e é totalmente compatível com JSR-107 (JCache).
+
+para garantir que o cache está funcionando veja o logo do hibernate que deve aparecer apenas uma vez
+se fizer /topicos -> guarda o cache, se fizer /topicos?curso=Spring -> guarda outro cache.
