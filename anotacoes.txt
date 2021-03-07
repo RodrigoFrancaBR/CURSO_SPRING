@@ -142,3 +142,11 @@ Nosso exemplo não usa uma biblioteca de cache específica, portanto, nosso arma
 
 para garantir que o cache está funcionando veja o logo do hibernate que deve aparecer apenas uma vez
 se fizer /topicos -> guarda o cache, se fizer /topicos?curso=Spring -> guarda outro cache.
+
+Precisamos avisar para o Spring que quando um novo tópico for cadastrado, excluído ou alterado, ele precisa atualizar o cache, porque senão o usuário vai continuar recebendo uma informação desatualizada.
+
+Para utilizar o módulo de cache do Spring Boot, devemos adicioná-lo como dependência do projeto no arquivo pom.xml;
+Para habilitar o uso de caches na aplicação, devemos adicionar a anotação @EnableCaching na classe ForumApplication;
+Para que o Spring guarde o retorno de um método no cache, devemos anotá-lo com @Cacheable;
+Para o Spring invalidar algum cache após um determinado método ser chamado, devemos anotá-lo com @CacheEvict;
+Devemos utilizar cache apenas para as informações que nunca ou raramente são atualizadas no banco de dados.
