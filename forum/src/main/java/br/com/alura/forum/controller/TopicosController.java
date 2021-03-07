@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -42,7 +43,8 @@ public class TopicosController {
 	private CursoRepository cursoRepository;
 
 	@GetMapping
-	public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso,
+	@Cacheable(value = "listaDeTopicos")
+	public Page<TopicoDto> listar(@RequestParam(required = false) String nomeCurso,
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.DESC) Pageable pageable) {
 
 		if (nomeCurso == null) {
