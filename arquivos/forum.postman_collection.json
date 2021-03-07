@@ -11,7 +11,7 @@
 			"name": "listar_topicos_nome_curso",
 			"request": {
 				"url": {
-					"raw": "localhost:8080/topicos?nomeCurso=HTML 5&paginaCorrente=0&qtdRegistro=3",
+					"raw": "localhost:8080/topicos?nomeCurso=HTML 5",
 					"host": [
 						"localhost"
 					],
@@ -23,18 +23,6 @@
 						{
 							"key": "nomeCurso",
 							"value": "HTML 5",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "paginaCorrente",
-							"value": "0",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "qtdRegistro",
-							"value": "3",
 							"equals": true,
 							"description": ""
 						}
@@ -60,31 +48,7 @@
 		{
 			"name": "listar_topicos",
 			"request": {
-				"url": {
-					"raw": "localhost:8080/topicos?paginaCorrente=0&qtdRegistro=3",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"topicos"
-					],
-					"query": [
-						{
-							"key": "paginaCorrente",
-							"value": "0",
-							"equals": true,
-							"description": ""
-						},
-						{
-							"key": "qtdRegistro",
-							"value": "3",
-							"equals": true,
-							"description": ""
-						}
-					],
-					"variable": []
-				},
+				"url": "localhost:8080/topicos",
 				"method": "GET",
 				"header": [
 					{
@@ -200,6 +164,144 @@
 				"body": {
 					"mode": "raw",
 					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listar_topicos_param_paginacao_ordenacao",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?page=0&size=10&sort=id,desc&sort=dataCriacao,desc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "10",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "sort",
+							"value": "id,desc",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "sort",
+							"value": "dataCriacao,desc",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listar_topicos_param_paginacao",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?page=0&size=10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "size",
+							"value": "10",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "listar_topicos_param_ordenacao",
+			"request": {
+				"url": {
+					"raw": "localhost:8080/topicos?sort=id,desc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"topicos"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "id,desc",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
 				},
 				"description": ""
 			},

@@ -107,8 +107,18 @@ Para tratar o erro 404 na classe controller, devemos utilizar o método findById
 O método getOne lança uma exception quando o id passado como parâmetro não existir no banco de dados;
 O método findById retorna um objeto Optional<>, que pode ou não conter um objeto.
 
-CURSO_2
-spring-boot-seguranca-cache-monitoramento
+CURSO_2 - spring-boot-seguranca-cache-monitoramento
 @RequestParam indica ao Spring que é um parametro de url/request e por default é obrigatório. Para indicar que nao é obrigatório informe false no required da anotação @RequestParam(required=false)
 Para paginação existe uma classe chamada PageRequest que atraves do método of vc informa a página corrente e a qtd de registros. Seu retorno é um Pageable "uma paginacao"
 Faça a busca (findAll) passando como parâmetro a paginação (Pageable)
+
+Ao invés de receber os três parâmetros soltos, a página, quantidade e ordenação,
+conseguimos receber todos juntos em um objeto pageable. recebendo como parâmetro do nosso método lista.
+
+Para o Spring conseguir pegar os parâmetros de paginação e ordenação da requisição, ele precisa que o módulo esteja habilitado no projeto, que é o módulo que faz esse suporte de pegar as coisas da web e passar para o Spring data. 
+
+Para realizar paginação com Spring Data JPA, devemos utilizar a interface Pageable;
+Nas classes Repository, os métodos que recebem um pageable como parâmetro retornam objetos do tipo Page<>, ao invés de List<>;
+Para o Spring incluir informações sobre a paginação no JSON de resposta enviado ao cliente da API, devemos alterar o retorno do método do controller de List<> para Page<>;
+Para fazer a ordenação na consulta ao banco de dados, devemos utilizar também a interface Pageable, passando como parâmetro a direção da ordenação, utilizando a classe Direction, e o nome do atributo para ordenar;
+Para receber os parâmetros de ordenação e paginação diretamente nos métodos do controller, devemos habilitar o módulo SpringDataWebSupport, adicionando a anotação @EnableSpringDataWebSupport na classe ForumApplication.
