@@ -4,15 +4,15 @@ Por padrão, o Spring considera que o retorno do método é o nome da página qu
 
 o Spring, por padrão, converte os dados no formato JSON, utilizando a biblioteca Jackson;
 
-. Para não repetir a anotação @ResponseBody em todos os métodos do controller, devemos utilizar a anotação @RestController;
+Para não repetir a anotação @ResponseBody em todos os métodos do controller, devemos utilizar a anotação @RestController;
 
-. Essa anotação é justamente para dizer que o controller é um rest controller. 
+Essa anotação é justamente para dizer que o controller é um rest controller. 
 
-. Para não precisar reiniciar manualmente o servidor a cada alteração feita no código, basta utilizar o módulo Spring Boot DevTools;
+Para não precisar reiniciar manualmente o servidor a cada alteração feita no código, basta utilizar o módulo Spring Boot DevTools;
 
-. Não é uma boa prática retornar entidades JPA nos métodos dos controllers, sendo mais indicado retornar classes que seguem o padrão DTO (Data Transfer Object);
+Não é uma boa prática retornar entidades JPA nos métodos dos controllers, sendo mais indicado retornar classes que seguem o padrão DTO (Data Transfer Object);
 
-. Os principais conceitos sobre o modelo arquitetural REST: Recursos, URIs, verbos HTTP, Representações e comunicação stateless.
+Os principais conceitos sobre o modelo arquitetural REST: Recursos, URIs, verbos HTTP, Representações e comunicação stateless.
 
 Toda a arquitetura que você tem em um sistema conversando com outro é um sistema distribuído.
 
@@ -24,10 +24,10 @@ O criador desse modelo REST, o Roy Fielding, que foi um dos criadores do protoco
 
 A ideia dele é que tenho dois sistemas conversando, com transferência de informações via rede. Como eu poderia projetar esse sistema para ter uma boa performance, escalabilidade, sem evitar alguns probleminhas?
 
- Hoje a web é toda baseada nesse modelo REST
- Antigamente utilizavam webservice no modelo SOAP, só que ele era todo baseado em xml
+Hoje a web é toda baseada nesse modelo REST
+Antigamente utilizavam webservice no modelo SOAP, só que ele era todo baseado em xml
 
- Toda aplicação gerencia coisas Alunos, Turmas etc.. Essas coisas são os recursos da nossa aplicação
+Toda aplicação gerencia coisas Alunos, Turmas etc.. Essas coisas são os recursos da nossa aplicação
 
 A aplicação vai manipular vários recursos preciso de alguma maneira diferenciar um recurso do outro.
 Utilizando o conceito de URI vamos fazer manipular os recursos Ou seja, cada recurso vai ter uma URI, um identificador único. algo como localhost:8080/alunos
@@ -45,26 +45,26 @@ Comunicação stateless. A web é baseada no protocolo HTTP, que segue o modelo 
 
 API REST também segue esse modelo de comunicação stateless. Sem usar as seções para armazenar dados dos usuários logados.
 
-. Para utilizar o JPA no projeto, devemos incluir o módulo Spring Boot Data JPA, que utiliza o Hibernate, por padrão, como sua implementação;
+Para utilizar o JPA no projeto, devemos incluir o módulo Spring Boot Data JPA, que utiliza o Hibernate, por padrão, como sua implementação;
  
 Não esquecer de adicionar o jdbc url na console do h2
 spring.datasource.url=jdbc:h2:mem:alura-forum
 
-. Para configurar o banco de dados da aplicação, devemos adicionar as propriedades do datasource e do JPA no arquivo src/main/resources/application.properties;
+Para configurar o banco de dados da aplicação, devemos adicionar as propriedades do datasource e do JPA no arquivo src/main/resources/application.properties;
 
-. Para acessar a página de gerenciamento do banco de dados H2, devemos informar a propriedade path no arquivo src/main/resources/application.properties;
+Para acessar a página de gerenciamento do banco de dados H2, devemos informar a propriedade path no arquivo src/main/resources/application.properties;
 
-. Ao acessar a página o atributo JDBC URL da console deve ser o mesmo informado na propriedade datasource do arquivo application.properties
+Ao acessar a página o atributo JDBC URL da console deve ser o mesmo informado na propriedade datasource do arquivo application.properties
 
-. Para que o Spring Boot popule automaticamente o banco de dados da aplicação, devemos criar o arquivo src/main/resources/data.sql;
+Para que o Spring Boot popule automaticamente o banco de dados da aplicação, devemos criar o arquivo src/main/resources/data.sql;
 
-. Para mapear as classes de domínio da aplicação como entidade JPA, devemos utilizar as anotações @Entity, @Id, @GeneratedValue, @ManyToOne, @OneToMany e @Enumerated;
+Para mapear as classes de domínio da aplicação como entidade JPA, devemos utilizar as anotações @Entity, @Id, @GeneratedValue, @ManyToOne, @OneToMany e @Enumerated;
 
-. Para criar um Repository, devemos criar uma interface, que herda da interface JPARepository do Spring Data JPA;
+Para criar um Repository, devemos criar uma interface, que herda da interface JPARepository do Spring Data JPA;
 
-. Para criar consultas que filtram por atributos da entidade, devemos seguir o padrão de nomenclatura de métodos do Spring, como por exemplo findByCursoNome ou findBy_Curso_Nome(String nomeCurso);;
+Para criar consultas que filtram por atributos da entidade, devemos seguir o padrão de nomenclatura de métodos do Spring, como por exemplo findByCursoNome ou findBy_Curso_Nome(String nomeCurso);;
 
-. Para criar manualmente a consulta com JPQL, devemos utilizar a anotação @Query;
+Para criar manualmente a consulta com JPQL, devemos utilizar a anotação @Query;
 
 Controller advice (interceptor)
 
@@ -107,7 +107,66 @@ Para tratar o erro 404 na classe controller, devemos utilizar o método findById
 O método getOne lança uma exception quando o id passado como parâmetro não existir no banco de dados;
 O método findById retorna um objeto Optional<>, que pode ou não conter um objeto.
 
-CURSO_2
+CURSO_2 - spring-boot-seguranca-cache-monitoramento
 @RequestParam indica ao Spring que é um parametro de url/request e por default é obrigatório. Para indicar que nao é obrigatório informe false no required da anotação @RequestParam(required=false)
 Para paginação existe uma classe chamada PageRequest que atraves do método of vc informa a página corrente e a qtd de registros. Seu retorno é um Pageable "uma paginacao"
 Faça a busca (findAll) passando como parâmetro a paginação (Pageable)
+
+Ao invés de receber os três parâmetros soltos, a página, quantidade e ordenação,
+conseguimos receber todos juntos em um objeto pageable. recebendo como parâmetro do nosso método lista.
+
+Para o Spring conseguir pegar os parâmetros de paginação e ordenação da requisição, ele precisa que o módulo esteja habilitado no projeto, que é o módulo que faz esse suporte de pegar as coisas da web e passar para o Spring data. 
+
+Para realizar paginação com Spring Data JPA, devemos utilizar a interface Pageable;
+Nas classes Repository, os métodos que recebem um pageable como parâmetro retornam objetos do tipo Page<>, ao invés de List<>;
+Para o Spring incluir informações sobre a paginação no JSON de resposta enviado ao cliente da API, devemos alterar o retorno do método do controller de List<> para Page<>;
+Para fazer a ordenação na consulta ao banco de dados, devemos utilizar também a interface Pageable, passando como parâmetro a direção da ordenação, utilizando a classe Direction, e o nome do atributo para ordenar;
+Para receber os parâmetros de ordenação e paginação diretamente nos métodos do controller, devemos habilitar o módulo SpringDataWebSupport, adicionando a anotação @EnableSpringDataWebSupport na classe ForumApplication.
+
+
+@SpringBootApplication é uma anotação de conveniência que adiciona todos os seguintes:
+
+@Configuration: marca a classe como uma fonte de definições de bean para o contexto do aplicativo.
+
+@EnableAutoConfiguration: Diz ao Spring Boot para começar a adicionar beans com base nas configurações de classpath, outros beans e várias configurações de propriedade. Por exemplo, se spring-webmvc estiver no caminho de classe, esta anotação sinaliza o aplicativo como um aplicativo da web e ativa comportamentos-chave, como configurar um DispatcherServlet.
+
+@ComponentScan: Diz ao Spring para procurar outros componentes, configurações e serviços no pacote com / example, permitindo que ele encontre os controladores.
+
+A anotação @EnableCaching dispara um pós-processador que inspeciona cada bean Spring quanto à presença de anotações de cache em métodos públicos. Se tal anotação for encontrada, um proxy é criado automaticamente para interceptar a chamada do método e manipular o comportamento do cache de acordo.
+
+O pós-processador lida com as anotações @Cacheable, @CachePut e @CacheEvict. Você pode consultar o Javadoc e o guia de referência para obter mais detalhes.
+
+Spring Boot configura automaticamente um CacheManager adequado para servir como um provedor para o cache relevante. Consulte a documentação do Spring Boot para obter mais detalhes.
+
+Nosso exemplo não usa uma biblioteca de cache específica, portanto, nosso armazenamento de cache é o substituto simples que usa ConcurrentHashMap. A abstração de cache suporta uma ampla gama de bibliotecas de cache e é totalmente compatível com JSR-107 (JCache).
+
+para garantir que o cache está funcionando veja o logo do hibernate que deve aparecer apenas uma vez
+se fizer /topicos -> guarda o cache, se fizer /topicos?curso=Spring -> guarda outro cache.
+
+Precisamos avisar para o Spring que quando um novo tópico for cadastrado, excluído ou alterado, ele precisa atualizar o cache, porque senão o usuário vai continuar recebendo uma informação desatualizada.
+
+Para utilizar o módulo de cache do Spring Boot, devemos adicioná-lo como dependência do projeto no arquivo pom.xml;
+Para habilitar o uso de caches na aplicação, devemos adicionar a anotação @EnableCaching na classe ForumApplication;
+Para que o Spring guarde o retorno de um método no cache, devemos anotá-lo com @Cacheable;
+Para o Spring invalidar algum cache após um determinado método ser chamado, devemos anotá-lo com @CacheEvict;
+Devemos utilizar cache apenas para as informações que nunca ou raramente são atualizadas no banco de dados.
+
+método anyRequest().authenticated()?
+Essa configuração evita que uma URL que não foi configurada seja pública.
+
+falar para o Spring gerar um formulário de autenticação. O Spring já tem um formulário de autenticação e um controller que recebe as requisições desse formulário. Então vou chamar esse método porque quero utilizar esse formulário padrão do Spring.
+ é para dizer para o Spring qual a classe, a service que tem a lógica de autenticação. Temos que passar para ele uma classe que está implementando uma interface que é a classe onde estará a lógica de autenticação.
+
+ UserDetailsService do Spring Security.
+ A classe que implementa essa interface geralmente contém uma lógica para validar as credenciais de um cliente que está se autenticando.
+
+ Nesta aula, aprendemos que:
+
+Para utilizar o módulo do Spring Security, devemos adicioná-lo como dependência do projeto no arquivo pom.xml;
+Para habilitar e configurar o controle de autenticação e autorização do projeto, devemos criar uma classe e anotá-la com @Configuration e @EnableWebSecurity;
+Para liberar acesso a algum endpoint da nossa API, devemos chamar o método http.authorizeRequests().antMatchers().permitAll() dentro do método configure(HttpSecurity http), que está na classe SecurityConfigurations;
+O método anyRequest().authenticated() indica ao Spring Security para bloquear todos os endpoints que não foram liberados anteriormente com o método permitAll();
+Para implementar o controle de autenticação na API, devemos implementar a interface UserDetails na classe Usuario e também implementar a interface GrantedAuthority na classe Perfil;
+Para o Spring Security gerar automaticamente um formulário de login, devemos chamar o método and().formLogin(), dentro do método configure(HttpSecurity http), que está na classe SecurityConfigurations;
+A lógica de autenticação, que consulta o usuário no banco de dados, deve implementar a interface UserDetailsService;
+Devemos indicar ao Spring Security qual o algoritmo de hashing de senha que utilizaremos na API, chamando o método passwordEncoder(), dentro do método configure(AuthenticationManagerBuilder auth), que está na classe SecurityConfigurations.
