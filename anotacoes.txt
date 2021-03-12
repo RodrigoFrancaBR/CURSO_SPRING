@@ -182,3 +182,38 @@ Para o servidor conseguir diferenciar um do outro, cada sessão tem id único. E
 
  precisamos configurar a parte de segurança, naquela classe securityConfigurations, para informar para o Spring security que não vamos mais fazer autenticação usando sessão, mas sim autenticação de maneira stateless.
  Como estamos fazendo autenticação via token, via JSON, precisamos fazer outra configuração. Precisamos chamar o método csrf.disable. Csrf é uma abreviação para cross-site request forgery, que é um tipo de ataque hacker que acontece em aplicações web. Como vamos fazer autenticação via token, automaticamente nossa API está livre desse tipo de ataque. Nós vamos desabilitar isso para o Spring security não fazer a validação do token do csrf.
+
+vamos chamar aqui um método para dizer que não queremos usar sessão. Nós passamos como parâmetro essionCreationPolicy.STATELESS. Com isso, aviso para o Spring security que no nosso projeto, quando eu fizer autenticação, não é para criar sessão, porque vamos usar token.
+a partir de agora não temos mais um formulário de login gerado pelo Spring. 
+Vamos criar uma nova classe e chamar de AutenticacaoController. Esse é o controller onde vai estar a lógica de autenticação.
+Quando o cliente fizer a chamada para a nossa API vai ter que mandar dois parâmetros no formato JSON, o e-mail e a senha.
+
+ Já implementamos o controller com a parte de autenticação, que recebe os dados de autenticação de usuário e senha. O próximo passo é autenticar no Spring e fazer a geração do token.Como não estamos mais usando aquele formulário do Spring, que já tinha um controller que fazia a chamada para a parte de autenticação, vamos ter que fazer a chamada manualmente.
+
+ Para fazer uma autenticação de maneira programática, manualmente, no Spring security, vamos precisar de uma classe chamada authentication manager. Eu preciso injetar no nosso controller. Vou declarar um atributo que vai ser injetado, do tipo authenticationManager. E vou chamar o atributo de authManager.
+
+ Essa classe é do Spring, mas ele não consegue fazer a injeção de dependências dela automaticamente
+ Podemos configurar. Na nossa classe SecurityConfiguration. Estamos herdando um método que sabe criar o authenticationManager. Basta sobrescrevermos esse método.
+ @Bean em cima do método, porque aí o Spring sabe que esse método devolve o authenticationManager e conseguimos injetar no nosso controller.
+ O próximo passo é pegar no nosso método o authManager e chamar o método authenticate, que vai fazer a autenticação. preciso passar para ele os dados de login um objeto específico UserNamePasswordAuthenticationToken
+ Essa é a classe que o Spring precisa para o AuthenticationManager usar junto com o método authenticate e esse método devolve um objeto do tipo authentication.
+
+ Quando o Spring chamar essa linha, do authManager.authenticate, o Spring vai olhar as configurações que fizemos e ele sabe que é para chamar a classe authentication services, que chama o usuário repository para consultar os dados do banco de dados. Se der certo, ele vem para a linha de baixo. Se der errado, vai dar um exception. Se der exception, não quero devolver ok ou erro 500. Quero devolver erro400.
+ Com isso já implementei a parte de autenticação. O cliente vai mandar o usuário e a senha, eu chamo o authenticationManager para ele disparar o processo de autenticação. Se estiver tudo ok, ele vai devolver o ok. Senão, vai cair no catch.
+ Para gerar o token é que vamos usar a biblioteca JWT,
+  vamos isolar em uma classe service. Vamos criar uma classe chamada TokenService e vamos ter o método gerar token. Na hora de gerar o token vou precisar identificar quem é o usuário, para qual usuário pertence aquele token.
+  Na classe token service vou colocar a API do JWT para fazer a geração do token. 
+  Ele tem um método que cria um objeto builder onde posso setar informações para ele construir o token.
+  A primeira coisa vai ser o issuer. Quem é que está gerando o token.
+  segundo é o subject que é o usuário, quem é o dono desse token, quem é o usuário autenticado a quem esse token pertence.
+  através do método getPrincipal conseguirmos recuperar o usuário que está logado.
+  com o usuario passamos seu id que é unico para o setSubject
+ terceiro setIssuedAt qual foi a data de geração do token. Quando ele foi concedido. ele está esperando um date.
+ quarto setExpiration O token também tem uma data de validação, onde ele vai expirar, igual a sessão tradicional, para não ficar infinito, porque isso seria um risco de segurança. E tenho que passar uma data
+  em uma propriedade do application.properties chamada fórum.jwt.expiration= e passei um tempo em milissegundos. Coloquei um dia, só para ficar mais fácil no teste. Na prática, o ideal é que o tempo seja menor. Para injetar coisas, parâmetros do Application.properties, usamos a anotação @Value, e ela recebe como parâmetro o nome da propriedade.
+
+  O Spring vai no application.properties, vai ver quem é a propriedade, pegar o valor dela e injetar aqui.
+  A data de expiração não é o expiration, porque o expiration é o tempo em milissegundos. Tenho que pegar aquele tempo e somar com a data atual. Então, vou criar outro date. Posso passar como parâmetro hoje.getTime, para pegar os milissegundos da variável hoje, e somar com a variável expiration, porque aí ele vai fazer a soma dos dois milissegundos e criar a nova data. É justamente esse data expiração que vou passar como parâmetro.
+  por ultimo signwith Pela especificação JSON webtoken, o token tem que ser criptografado. Preciso dizer para ele quem é o algoritmo de criptografia e a senha da minha aplicação, que é usada para fazer a assinatura e gerar o hast da criptografia do token. É aqui que vou injetar o secret, que está no application.properties. A ideia é pegar um programa que gera uma string aleatória gigantesca e usar como senha. Para não ficar isso no código, podemos colocar no application.properties.
+  Só preciso dizer qual é o algoritmo, e aí existe a classe signatureAlgorithm.HS256. No final, um compact para ele compactar e transformar isso em uma string.
+  Consegui fazer a lógica para gerar o token.

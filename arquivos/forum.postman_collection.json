@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "forum",
-		"_postman_id": "c549d6f2-3f74-1daf-236a-9b78a388b0f6",
+		"_postman_id": "de0852b3-fcd4-0160-1411-ff48fd76e9fe",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -302,6 +302,26 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"nomeDaVacina\":\"Tríplice Viral\",\n\t\"dataDeVacinacao\":\"2021-01-21\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "autenticar",
+			"request": {
+				"url": "localhost:8080/auth",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"email\": \"aluno@email.com\",\n            \"senha\": \"123456\"\n}"
 				},
 				"description": ""
 			},
